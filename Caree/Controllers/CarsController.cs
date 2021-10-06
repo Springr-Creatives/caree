@@ -18,6 +18,11 @@ namespace Caree.Controllers
             blCar = _blCar;
         }
 
+        public CarsController()
+        {
+            blCar = new BL_Car();
+        }
+
         // GET: api/Cars/Year/2021
         [Authorize]
         [HttpGet]

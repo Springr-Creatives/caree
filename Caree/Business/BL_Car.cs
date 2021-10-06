@@ -14,6 +14,11 @@ namespace Caree.Business
             dlCar = _dlCar;
         }
 
+        public BL_Car()
+        {
+            dlCar = new DL_Car();
+        }
+
         public IQueryable<Car> CarsByYear(int Year)
         {
             return dlCar.GetCarByYear(Year);

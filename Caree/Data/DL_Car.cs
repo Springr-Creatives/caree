@@ -11,6 +11,11 @@ namespace Caree.BL
     {
         private CarDbContext Context;
 
+        public DL_Car(CarDbContext _carDbContext)
+        {
+            Context = _carDbContext;
+        }
+
         public DL_Car()
         {
             Context = new CarDbContext();
