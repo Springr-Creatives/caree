@@ -8,112 +8,64 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Caree.BL;
 using Caree.Data;
-using Caree.Models;
+using Caree.Entities;
 
 namespace Caree.Controllers
 {
+    [RoutePrefix("api/Cars")]
     public class CarsController : ApiController
     {
-        private CarDbContext db = new CarDbContext();
 
-        // GET: api/Cars
-        public IQueryable<Car> GetCars()
+        private CarBL carBL = new CarBL();
+
+        // GET: api/Cars/Year/2021
+        [HttpGet]
+        [Route("Year/{year}")]
+        public IQueryable<Car> Get(int year)
         {
-            return db.Cars;
+            return carBL.GetCarByYear(year);
         }
 
-        // GET: api/Cars/5
-        [ResponseType(typeof(Car))]
-        public IHttpActionResult GetCar(int id)
+        // PATCH: api/Cars (JSON)
+        [HttpPatch]
+        [Route("")]
+        public IHttpActionResult Patch([FromBody] Car car)
         {
-            Car car = db.Cars.Find(id);
-            if (car == null)
+
+            if (carBL.UpdateCar(car))
             {
-                return NotFound();
+                return StatusCode(HttpStatusCode.OK);
             }
 
-            return Ok(car);
-        }
-
-        // PUT: api/Cars/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutCar(int id, Car car)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != car.CarId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(car).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.BadRequest);
         }
 
         // POST: api/Cars
         [ResponseType(typeof(Car))]
-        public IHttpActionResult PostCar(Car car)
+        [Route("")]
+        public IHttpActionResult Post(Car car)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.Cars.Add(car);
-            db.SaveChanges();
-
-            return CreatedAtRoute("CarApi", new { id = car.CarId }, car);
-        }
-
-        // DELETE: api/Cars/5
-        [ResponseType(typeof(Car))]
-        public IHttpActionResult DeleteCar(int id)
-        {
-            Car car = db.Cars.Find(id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-
-            db.Cars.Remove(car);
-            db.SaveChanges();
-
+            car = carBL.CreateCar(car);
             return Ok(car);
         }
+
+
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                carBL.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        private bool CarExists(int id)
-        {
-            return db.Cars.Count(e => e.CarId == id) > 0;
-        }
+
     }
 }
