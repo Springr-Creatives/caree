@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace Caree.BL
 {
-    public class CarBL : IDisposable
+    public class DL_Car : IDisposable
     {
         private CarDbContext Context;
 
-        public CarBL()
+        public DL_Car()
         {
             Context = new CarDbContext();
         }

@@ -22,6 +22,8 @@ namespace Caree.Data
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
         public virtual DbSet<Car> Cars { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+
     }
 
    

@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Caree.BL;
+using Caree.Business;
 using Caree.Data;
 using Caree.Entities;
 
@@ -18,23 +19,25 @@ namespace Caree.Controllers
     public class CarsController : ApiController
     {
 
-        private CarBL carBL = new CarBL();
+        private BL_Car blCar = new BL_Car();
 
         // GET: api/Cars/Year/2021
+        [Authorize]
         [HttpGet]
         [Route("Year/{year}")]
         public IQueryable<Car> Get(int year)
         {
-            return carBL.GetCarByYear(year);
+            return blCar.CarsByYear(year);
         }
 
         // PATCH: api/Cars (JSON)
+        [Authorize]
         [HttpPatch]
         [Route("")]
         public IHttpActionResult Patch([FromBody] Car car)
         {
 
-            if (carBL.UpdateCar(car))
+            if (blCar.UpdateCar(car))
             {
                 return StatusCode(HttpStatusCode.OK);
             }
@@ -43,6 +46,7 @@ namespace Caree.Controllers
         }
 
         // POST: api/Cars
+        [Authorize]
         [ResponseType(typeof(Car))]
         [Route("")]
         public IHttpActionResult Post(Car car)
@@ -51,7 +55,7 @@ namespace Caree.Controllers
             {
                 return BadRequest(ModelState);
             }
-            car = carBL.CreateCar(car);
+            car = blCar.CreateCar(car);
             return Ok(car);
         }
 
@@ -61,7 +65,7 @@ namespace Caree.Controllers
         {
             if (disposing)
             {
-                carBL.Dispose();
+                blCar.Dispose();
             }
             base.Dispose(disposing);
         }
