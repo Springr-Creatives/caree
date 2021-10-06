@@ -1,16 +1,11 @@
 ﻿using Caree.Data;
 using Microsoft.Owin.Security.OAuth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Owin;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Caree.Infrastructure
 {
-    
+
     public class ApplicationAuthProvider : OAuthAuthorizationServerProvider
     {
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -20,11 +15,13 @@ namespace Caree.Infrastructure
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             DL_User dlUser = new DL_User();
-            bool Valid = dlUser.ValidateUser(context.UserName,context.Password);
+            bool Valid = dlUser.ValidateUser(context.UserName, context.Password);
             if (Valid)
             {
-                var identity = new ClaimsIdentity(context.Options.AuthenticationType); identity.AddClaim(new Claim("Username", context.UserName));
-                identity.AddClaim(new Claim("Password", context.Password)); context.Validated(identity);
+                var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                identity.AddClaim(new Claim("Username", context.UserName));
+                identity.AddClaim(new Claim("Password", context.Password));
+                context.Validated(identity);
             }
             else
             {

@@ -1,17 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using Caree.Business;
+using Caree.Entities;
+using System.Web.Http;
+
 
 namespace Caree.Controllers
 {
-    public class UsersController : Controller
+    [RoutePrefix("api/Users")]
+    public class UsersController : ApiController
     {
-        // GET: Users
-        public ActionResult Index()
+   
+        BL_User bL_User;
+
+        public UsersController(BL_User _bL_User)
         {
-            return View();
+            bL_User = _bL_User;
         }
+
+
+        [Route("Register")]
+        public IHttpActionResult Create(User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(bL_User.CreateUser(user));
+
+
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                bL_User.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }

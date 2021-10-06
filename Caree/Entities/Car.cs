@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Caree.Entities
+﻿namespace Caree.Entities
 {
     public class Car
     {

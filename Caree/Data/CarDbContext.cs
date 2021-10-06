@@ -1,7 +1,5 @@
 using Caree.Entities;
-using System;
 using System.Data.Entity;
-using System.Linq;
 
 namespace Caree.Data
 {
@@ -26,5 +24,5 @@ namespace Caree.Data
 
     }
 
-   
+
 }

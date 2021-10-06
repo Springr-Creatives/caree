@@ -1,8 +1,6 @@
 ﻿using Caree.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Caree.Data
 {
@@ -18,8 +16,8 @@ namespace Caree.Data
         public bool ValidateUser(String username, String password)
         {
             var user = from c in Context.Users
-                        where (c.UserName == username && c.Password == password)
-                        select c;
+                       where (c.UserName == username && c.Password == password)
+                       select c;
 
             if (user.Count() != 0)
             {
@@ -29,11 +27,19 @@ namespace Caree.Data
             return false;
         }
 
-        public void InsertUser(String username, String password)
+        public User InsertUser(User user)
         {
-            var user = new User() { UserName = username, Password = password };
             Context.Users.Add(user);
             Context.SaveChanges();
+            return user;
+        }
+
+
+        public void Dispose()
+        {
+
+            Context.Dispose();
+
         }
 
 

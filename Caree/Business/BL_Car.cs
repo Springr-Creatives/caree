@@ -1,15 +1,18 @@
 ﻿using Caree.BL;
 using Caree.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Caree.Business
 {
     public class BL_Car : IDisposable
     {
-        private DL_Car dlCar = new DL_Car();
+        private DL_Car dlCar;
+
+        public BL_Car(DL_Car _dlCar)
+        {
+            dlCar = _dlCar;
+        }
 
         public IQueryable<Car> CarsByYear(int Year)
         {

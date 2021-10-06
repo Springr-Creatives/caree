@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿using Caree.Business;
+using Caree.Entities;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Caree.BL;
-using Caree.Business;
-using Caree.Data;
-using Caree.Entities;
 
 namespace Caree.Controllers
 {
@@ -19,7 +11,12 @@ namespace Caree.Controllers
     public class CarsController : ApiController
     {
 
-        private BL_Car blCar = new BL_Car();
+        BL_Car blCar;
+
+        public CarsController(BL_Car _blCar)
+        {
+            blCar = _blCar;
+        }
 
         // GET: api/Cars/Year/2021
         [Authorize]

@@ -1,8 +1,7 @@
 namespace Caree.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddUser : DbMigration
     {
         public override void Up()
@@ -17,7 +16,7 @@ namespace Caree.Migrations
                 })
                 .PrimaryKey(t => t.UserId);
         }
-        
+
         public override void Down()
         {
             DropTable("dbo.Users");
